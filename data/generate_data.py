@@ -150,18 +150,22 @@ for _ in range(num_samples):
     total_sqft = random.randint(*total_sqft_range[floors])
     furnishing = random.choice(furnishing_options)
     age = random.randint(*age_range)
-    
+    # rooms = random.randint(1, floors * 2)
+    min_rooms = floors  # at least 1 room per floor
+    max_rooms = max(floors, total_sqft // 250)  # 1 room per ~250 sqft
+    rooms = random.randint(min_rooms, max_rooms)
+
     price = total_sqft * price_per_sqft[location] + random.randint(-100000, 100000)
     rent = total_sqft * rent_per_sqft[location] + random.randint(-2000, 2000)
     
     data.append([
-        location, floors, washroom, total_sqft, furnishing, age, price, rent
+        location, floors,rooms, washroom, total_sqft, furnishing, age, price, rent
     ])
 
 # -------------------------
 # Step 3: Create DataFrame
 # -------------------------
-columns = ["location", "floors", "washroom", "total_sqft", "furnishing", "age", "price", "rent"]
+columns = ["location", "floors","rooms", "washroom", "total_sqft", "furnishing", "age", "price", "rent"]
 df = pd.DataFrame(data, columns=columns)
 
 # -------------------------
